@@ -1,1 +1,1 @@
-__all__ = ["verify_parameters", "executor"]
+__all__ = ["verify_parameters"]
