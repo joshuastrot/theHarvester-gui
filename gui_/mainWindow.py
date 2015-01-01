@@ -3,7 +3,9 @@
 
 #Import needed libraries
 from PyQt5 import QtCore, QtGui, QtWidgets
+from time import sleep
 from tools_ import *
+
 
 #Start the main class
 class Ui_MainWindow(QtCore.QObject):
@@ -32,9 +34,13 @@ class Ui_MainWindow(QtCore.QObject):
         self.domainName = QtWidgets.QLineEdit(self.centralwidget)
         self.domainName.setObjectName("domainName")
         self.domainContainer.addWidget(self.domainName)
-        self.goAndAbort = QtWidgets.QPushButton(self.centralwidget)
-        self.goAndAbort.setObjectName("goAndAbort")
-        self.domainContainer.addWidget(self.goAndAbort)
+        self.goButton = QtWidgets.QPushButton(self.centralwidget)
+        self.goButton.setObjectName("goButton")
+        self.domainContainer.addWidget(self.goButton)
+        self.abortButton = QtWidgets.QPushButton(self.centralwidget)
+        self.abortButton.setObjectName("abortButton")
+        self.abortButton.setEnabled(False)
+        self.domainContainer.addWidget(self.abortButton)
         self.mainContainer.addLayout(self.domainContainer)
         
         #Set up the Data Source bar
@@ -88,7 +94,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.mainContainer.addLayout(self.limitResultsContainer)
         
         #Set up the Results Box
-        self.resultsBox = QtWidgets.QPlainTextEdit(self.centralwidget)
+        self.resultsBox = QtWidgets.QTextEdit(self.centralwidget)
         self.resultsBox.setReadOnly(True)
         self.resultsBox.setObjectName("resultsBox")
         self.mainContainer.addWidget(self.resultsBox)
@@ -110,7 +116,8 @@ class Ui_MainWindow(QtCore.QObject):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         
-        self.goAndAbort.clicked.connect(self.checkInputs)
+        self.goButton.clicked.connect(self.checkInputs)
+        self.abortButton.clicked.connect(self.abort)
         self.reset.clicked.connect(self.resetGUI)
         
         #Set all the strings, and connect the slots
@@ -119,41 +126,87 @@ class Ui_MainWindow(QtCore.QObject):
         
         
     def retranslateUi(self, MainWindow):
+        global _translate 
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.domainName.setPlaceholderText(_translate("MainWindow", "Domain Name"))
-        self.goAndAbort.setText(_translate("MainWindow", "Go!"))
+        self.goButton.setText(_translate("MainWindow", "Go"))
+        self.abortButton.setText(_translate("MainWindow", "Abort"))
         self.dataSource.setItemText(0, _translate("MainWindow", "Data Source"))
-        self.dataSource.setItemText(1, _translate("MainWindow", "All"))
-        self.dataSource.setItemText(2, _translate("MainWindow", "Google"))
-        self.dataSource.setItemText(3, _translate("MainWindow", "GoogleCSE"))
+        self.dataSource.setItemText(1, _translate("MainWindow", "all"))
+        self.dataSource.setItemText(2, _translate("MainWindow", "google"))
+        self.dataSource.setItemText(3, _translate("MainWindow", "googleCSE"))
         self.dataSource.setItemText(4, _translate("MainWindow", "GooglePlus"))
-        self.dataSource.setItemText(5, _translate("MainWindow", "Google-Profiles"))
-        self.dataSource.setItemText(6, _translate("MainWindow", "Bing"))
-        self.dataSource.setItemText(7, _translate("MainWindow", "BingAPI"))
-        self.dataSource.setItemText(8, _translate("MainWindow", "PGP"))
-        self.dataSource.setItemText(9, _translate("MainWindow", "LinkedIn"))
-        self.dataSource.setItemText(10, _translate("MainWindow", "People123"))
-        self.dataSource.setItemText(11, _translate("MainWindow", "Jigsaw"))
-        self.dataSource.setItemText(12, _translate("MainWindow", "Twitter"))
+        self.dataSource.setItemText(5, _translate("MainWindow", "google-profiles"))
+        self.dataSource.setItemText(6, _translate("MainWindow", "bing"))
+        self.dataSource.setItemText(7, _translate("MainWindow", "bingapi"))
+        self.dataSource.setItemText(8, _translate("MainWindow", "pgp"))
+        self.dataSource.setItemText(9, _translate("MainWindow", "linkedin"))
+        self.dataSource.setItemText(10, _translate("MainWindow", "people123"))
+        self.dataSource.setItemText(11, _translate("MainWindow", "jigsaw"))
+        self.dataSource.setItemText(12, _translate("MainWindow", "twitter"))
         self.queryShodan.setText(_translate("MainWindow", "Query hosts with Shodan"))
         self.limitResultsLabel.setText(_translate("MainWindow", "Limit Results"))
         self.limitResults.setText(_translate("MainWindow", "500"))
         self.reset.setText(_translate("MainWindow", "Reset"))
         self.statusbar.showMessage(_translate("MainWindow", "Ready to go!"))
         
-    
+    def parseData(self, data):
+        data = str(data)
+        
+        data = data.replace("\\n", "<br>")
+        data = data.replace("\\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+        data = data.replace("<strong>", "")
+        data = data.replace("<<", "<")
+        
+        if ( data.startswith('b"') and data.endswith('"') ) or ( data.startswith("b'") and data.endswith("'") ):
+            data = data[2:-1]
+        
+        if data.endswith("<"):
+            data = data[0:-1]
+            
+        if data.startswith("<br>*"):
+            if data.endswith("<br><br><br>"):
+                return None
+            else:
+                data = data.split("<br><br><br>")[1]
+            
+        return data
+        
+    def dataReady(self):
+        cursor = self.resultsBox.textCursor()
+        cursor.movePosition(cursor.End)
+        cursor.insertHtml(self.parseData(self.process.readAll()))
+        self.resultsBox.ensureCursorVisible()
+        
     def checkInputs(self):
-        verification = verify_parameters.verify(self.domainName.text(), self.dataSource.currentText(), str(self.queryShodan.isChecked()), self.limitResults.text())
+        parametersList = [self.domainName.text(), self.dataSource.currentText(), str(self.queryShodan.isChecked()), self.limitResults.text()]
+        verification = verify_parameters.verify(parametersList[0], parametersList[1], parametersList[2], parametersList[3])
         
         if verification == True:
-            print("We're all set")
+            self.statusbar.showMessage("Running")
+            self.goButton.setEnabled(False)
+            self.abortButton.setEnabled(True)
+            
+            self.process = QtCore.QProcess(self)
+            self.process.setProcessChannelMode(QtCore.QProcess.MergedChannels)
+            self.process.readyReadStandardOutput.connect(self.dataReady)
+            
+            self.process.start("python2", ["-u", "/usr/share/theharvester/theHarvester.py", "-d", self.domainName.text(), "-l", self.limitResults.text(), "-b", self.dataSource.currentText()])
         else:
             self.resultsBox.setPlainText(verification)
+            
+    def abort(self):
+        self.statusbar.showMessage("Aborted")
+        self.abortButton.setEnabled(False)
+        self.goButton.setEnabled(True)
         
     def resetGUI(self):
         self.resultsBox.setPlainText("")
         self.domainName.setText("")
-        self.limitResults.setText("")
+        self.limitResults.setText("500")
         self.dataSource.setCurrentIndex(0)
         self.queryShodan.setChecked(False)
+        self.statusbar.showMessage(_translate("MainWindow", "Ready to go!"))
+        self.abortButton.setEnabled(False)
+        self.goButton.setEnabled(True)
