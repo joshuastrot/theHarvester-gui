@@ -179,7 +179,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.resultsBox.ensureCursorVisible()
     
     def finished(self):
-        self.statusbar.showMessage("Finished")
+        self.statusbar.showMessage(_translate("MainWindow", "Finished"))
         self.abortButton.setEnabled(False)
         self.goButton.setEnabled(True)
         
@@ -188,7 +188,7 @@ class Ui_MainWindow(QtCore.QObject):
         verification = verify_parameters.verify(parametersList[0], parametersList[1], parametersList[2], parametersList[3])
         
         if verification == True:
-            self.statusbar.showMessage("Running")
+            self.statusbar.showMessage(_translate("MainWindow", "Running"))
             self.resultsBox.setPlainText("")
             self.goButton.setEnabled(False)
             self.abortButton.setEnabled(True)
@@ -203,7 +203,7 @@ class Ui_MainWindow(QtCore.QObject):
             self.resultsBox.setPlainText(verification)
             
     def abort(self):
-        self.statusbar.showMessage("Aborted")
+        self.statusbar.showMessage(_translate("MainWindow", "Aborted"))
         self.abortButton.setEnabled(False)
         self.goButton.setEnabled(True)
         
