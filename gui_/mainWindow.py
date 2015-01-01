@@ -135,7 +135,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.dataSource.setItemText(1, _translate("MainWindow", "all"))
         self.dataSource.setItemText(2, _translate("MainWindow", "google"))
         self.dataSource.setItemText(3, _translate("MainWindow", "googleCSE"))
-        self.dataSource.setItemText(4, _translate("MainWindow", "GooglePlus"))
+        self.dataSource.setItemText(4, _translate("MainWindow", "googleplus"))
         self.dataSource.setItemText(5, _translate("MainWindow", "google-profiles"))
         self.dataSource.setItemText(6, _translate("MainWindow", "bing"))
         self.dataSource.setItemText(7, _translate("MainWindow", "bingapi"))
