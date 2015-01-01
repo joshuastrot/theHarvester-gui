@@ -3,7 +3,6 @@
 
 #Import needed libraries
 from PyQt5 import QtCore, QtGui, QtWidgets
-from time import sleep
 from tools_ import *
 
 
@@ -178,6 +177,11 @@ class Ui_MainWindow(QtCore.QObject):
         cursor.movePosition(cursor.End)
         cursor.insertHtml(self.parseData(self.process.readAll()))
         self.resultsBox.ensureCursorVisible()
+    
+    def finished(self):
+        self.statusbar.showMessage("Finished")
+        self.abortButton.setEnabled(False)
+        self.goButton.setEnabled(True)
         
     def checkInputs(self):
         parametersList = [self.domainName.text(), self.dataSource.currentText(), str(self.queryShodan.isChecked()), self.limitResults.text()]
@@ -185,14 +189,16 @@ class Ui_MainWindow(QtCore.QObject):
         
         if verification == True:
             self.statusbar.showMessage("Running")
+            self.resultsBox.setPlainText("")
             self.goButton.setEnabled(False)
             self.abortButton.setEnabled(True)
             
             self.process = QtCore.QProcess(self)
             self.process.setProcessChannelMode(QtCore.QProcess.MergedChannels)
             self.process.readyReadStandardOutput.connect(self.dataReady)
+            self.process.finished.connect(self.finished)
             
-            self.process.start("python2", ["-u", "/usr/share/theharvester/theHarvester.py", "-d", self.domainName.text(), "-l", self.limitResults.text(), "-b", self.dataSource.currentText()])
+            self.process.start("python2", ["-u", "/usr/share/theharvester/theHarvester.py", "-d", self.domainName.text(), "-l", self.limitResults.text(), "-b", self.dataSource.currentText(), "-h" if self.queryShodan.isChecked() else ""])
         else:
             self.resultsBox.setPlainText(verification)
             
