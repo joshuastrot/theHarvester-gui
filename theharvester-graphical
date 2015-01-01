@@ -2,8 +2,6 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from os import geteuid, environ, path
-from locale import getdefaultlocale
 
 from gui_ import *
 
