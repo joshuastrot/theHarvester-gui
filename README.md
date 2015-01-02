@@ -1,6 +1,6 @@
 theharvester-graphical
 ======================
 
-Graphical Frontend to theHarvester.
+Graphical frontend to theHarvester.
 
-Currently in development, check back soon!
+Must have the latest version of theHarvester from the GIT installed also.

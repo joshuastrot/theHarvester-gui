@@ -198,7 +198,7 @@ class Ui_MainWindow(QtCore.QObject):
             self.process.readyReadStandardOutput.connect(self.dataReady)
             self.process.finished.connect(self.finished)
             
-            self.process.start("python2", ["-u", "/usr/share/theharvester/theHarvester.py", "-d", self.domainName.text(), "-l", self.limitResults.text(), "-b", self.dataSource.currentText(), "-h" if self.queryShodan.isChecked() else ""])
+            self.process.start("python2", ["-u", "/usr/share/theHarvester/theHarvester.py", "-d", self.domainName.text(), "-l", self.limitResults.text(), "-b", self.dataSource.currentText(), "-h" if self.queryShodan.isChecked() else ""])
         else:
             self.resultsBox.setPlainText(verification)
             
