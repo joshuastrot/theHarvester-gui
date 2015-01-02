@@ -12,7 +12,8 @@ class Ui_MainWindow(QtCore.QObject):
     def setupUi(self, MainWindow):
         
         #Set window name and size. Should be full resizable.
-        MainWindow.setObjectName("The Harvester Graphical")
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowTitle("The Harvester GUI")
         MainWindow.resize(800, 502)
         
         #Set up the Central Widget
@@ -127,7 +128,6 @@ class Ui_MainWindow(QtCore.QObject):
     def retranslateUi(self, MainWindow):
         global _translate 
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.domainName.setPlaceholderText(_translate("MainWindow", "Domain Name"))
         self.goButton.setText(_translate("MainWindow", "Go"))
         self.abortButton.setText(_translate("MainWindow", "Abort"))
