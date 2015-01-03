@@ -207,6 +207,10 @@ class Ui_MainWindow(QtCore.QObject):
         self.abortButton.setEnabled(False)
         self.goButton.setEnabled(True)
         
+        if self.process.pid() > 0:
+            self.process.close()
+            
+        
     def resetGUI(self):
         self.resultsBox.setPlainText("")
         self.domainName.setText("")
