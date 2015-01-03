@@ -10,7 +10,7 @@ if [ $1 == "-r" ]; then
     fi
     
     rm -r "$2/usr/share/theHarvester-gui/"
-    rm -r "$2/usr/bin/theharestergui"
+    rm -r "$2/usr/bin/theharvestergui"
     
     exit 1
 fi
