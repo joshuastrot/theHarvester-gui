@@ -1,7 +1,5 @@
-#!/usr/bin/python
-
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt4 import QtCore, QtGui
 
 from gui_ import *
 
@@ -10,13 +8,13 @@ from gui_ import *
 if __name__ == "__main__":
     ui = mainWindow.Ui_MainWindow()
   
-    app = QtWidgets.QApplication(sys.argv)
+    app = QtGui.QApplication(sys.argv)
     
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QtGui.QMainWindow()
     ui.setupUi(MainWindow)
     
     qr = MainWindow.frameGeometry()
-    cp = QtWidgets.QDesktopWidget().availableGeometry().center()
+    cp = QtGui.QDesktopWidget().availableGeometry().center()
     qr.moveCenter(cp)
     MainWindow.move(qr.topLeft())
     

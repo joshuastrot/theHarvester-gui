@@ -1,11 +1,25 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #Import needed libraries
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt4 import QtCore, QtGui
 from tools_ import *
 
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+    
+    
 #Start the main class
 class Ui_MainWindow(QtCore.QObject):
     #Function to set up the GUI
@@ -17,38 +31,38 @@ class Ui_MainWindow(QtCore.QObject):
         MainWindow.resize(800, 502)
         
         #Set up the Central Widget
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.centralWidgetContainer = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.centralWidgetContainer = QtGui.QVBoxLayout(self.centralwidget)
         self.centralWidgetContainer.setObjectName("centralWidgetContainer")
         
         #Set up main layout
-        self.mainContainer = QtWidgets.QVBoxLayout()
+        self.mainContainer = QtGui.QVBoxLayout()
         self.mainContainer.setObjectName("mainContainer")
         self.centralWidgetContainer.addLayout(self.mainContainer)
         
         #Set up the Domain and Submit Bar
-        self.domainContainer = QtWidgets.QHBoxLayout()
+        self.domainContainer = QtGui.QHBoxLayout()
         self.domainContainer.setObjectName("domainContainer")
-        self.domainName = QtWidgets.QLineEdit(self.centralwidget)
+        self.domainName = QtGui.QLineEdit(self.centralwidget)
         self.domainName.setObjectName("domainName")
         self.domainContainer.addWidget(self.domainName)
-        self.goButton = QtWidgets.QPushButton(self.centralwidget)
+        self.goButton = QtGui.QPushButton(self.centralwidget)
         self.goButton.setObjectName("goButton")
         self.domainContainer.addWidget(self.goButton)
-        self.abortButton = QtWidgets.QPushButton(self.centralwidget)
+        self.abortButton = QtGui.QPushButton(self.centralwidget)
         self.abortButton.setObjectName("abortButton")
         self.abortButton.setEnabled(False)
         self.domainContainer.addWidget(self.abortButton)
         self.mainContainer.addLayout(self.domainContainer)
         
         #Set up the Data Source bar
-        self.dataSourceContainer = QtWidgets.QHBoxLayout()
+        self.dataSourceContainer = QtGui.QHBoxLayout()
         self.dataSourceContainer.setObjectName("dataSourceContainer")
-        self.dataSource = QtWidgets.QComboBox(self.centralwidget)
+        self.dataSource = QtGui.QComboBox(self.centralwidget)
         self.dataSource.setObjectName("dataSource")
-        dataSizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        dataSizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Fixed)
         dataSizePolicy.setHorizontalStretch(0)
         dataSizePolicy.setVerticalStretch(0)
         dataSizePolicy.setHeightForWidth(self.dataSource.sizePolicy().hasHeightForWidth())
@@ -67,52 +81,52 @@ class Ui_MainWindow(QtCore.QObject):
         self.dataSource.addItem("")
         self.dataSource.addItem("")
         self.dataSourceContainer.addWidget(self.dataSource)
-        self.queryShodan = QtWidgets.QCheckBox(self.centralwidget)
+        self.queryShodan = QtGui.QCheckBox(self.centralwidget)
         self.queryShodan.setObjectName("queryShodan")
         self.dataSourceContainer.addWidget(self.queryShodan)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.dataSourceContainer.addItem(spacerItem)
         self.mainContainer.addLayout(self.dataSourceContainer)
         
         #Set up the Limit Results bar
-        self.limitResultsContainer = QtWidgets.QHBoxLayout()
+        self.limitResultsContainer = QtGui.QHBoxLayout()
         self.limitResultsContainer.setObjectName("limitResultsContainer")
-        self.limitResultsLabel = QtWidgets.QLabel(self.centralwidget)
+        self.limitResultsLabel = QtGui.QLabel(self.centralwidget)
         self.limitResultsLabel.setObjectName("limitResultsLabel")
         self.limitResultsContainer.addWidget(self.limitResultsLabel)
-        self.limitResults = QtWidgets.QLineEdit(self.centralwidget)
+        self.limitResults = QtGui.QLineEdit(self.centralwidget)
         self.limitResults.setObjectName("limitResults")
-        limitResultsSizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        limitResultsSizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
         limitResultsSizePolicy.setHorizontalStretch(0)
         limitResultsSizePolicy.setVerticalStretch(0)
         limitResultsSizePolicy.setHeightForWidth(self.limitResults.sizePolicy().hasHeightForWidth())
         self.limitResults.setSizePolicy(limitResultsSizePolicy)
         self.limitResults.setMinimumSize(QtCore.QSize(0, 0))
         self.limitResultsContainer.addWidget(self.limitResults)
-        limitResultsSpacer = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        limitResultsSpacer = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.limitResultsContainer.addItem(limitResultsSpacer)
         self.mainContainer.addLayout(self.limitResultsContainer)
         
         #Set up the Results Box
-        self.resultsBox = QtWidgets.QTextEdit(self.centralwidget)
+        self.resultsBox = QtGui.QTextEdit(self.centralwidget)
         self.resultsBox.setReadOnly(True)
         self.resultsBox.setObjectName("resultsBox")
         self.mainContainer.addWidget(self.resultsBox)
-        resultsSpacer = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        resultsSpacer = QtGui.QSpacerItem(20, 5, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.mainContainer.addItem(resultsSpacer)
         
         #Set up Reset bar
-        self.resetContainer = QtWidgets.QHBoxLayout()
+        self.resetContainer = QtGui.QHBoxLayout()
         self.resetContainer.setObjectName("resetContainer")
-        self.reset = QtWidgets.QPushButton(self.centralwidget)
+        self.reset = QtGui.QPushButton(self.centralwidget)
         self.reset.setObjectName("reset")
         self.resetContainer.addWidget(self.reset)
-        resetSpacer = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        resetSpacer = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.resetContainer.addItem(resetSpacer)
         self.mainContainer.addLayout(self.resetContainer)
         
         #Set up Status Bar
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         
@@ -153,8 +167,8 @@ class Ui_MainWindow(QtCore.QObject):
     def parseData(self, data):
         data = str(data)
         
-        data = data.replace("\\n", "<br>")
-        data = data.replace("\\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+        data = data.replace("\n", "<br>")
+        data = data.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
         data = data.replace("<strong>", "")
         data = data.replace("<<", "<")
         
@@ -175,7 +189,9 @@ class Ui_MainWindow(QtCore.QObject):
     def dataReady(self):
         cursor = self.resultsBox.textCursor()
         cursor.movePosition(cursor.End)
-        cursor.insertHtml(self.parseData(self.process.readAll()))
+        newData = self.parseData(self.process.readAll())
+        if newData is not None:
+            cursor.insertHtml(newData)
         self.resultsBox.ensureCursorVisible()
     
     def finished(self):

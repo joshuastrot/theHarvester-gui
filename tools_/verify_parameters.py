@@ -1,11 +1,9 @@
-#!/usr/bin/python
-
 #Define the function to check the parameters in the GUI
 def verify(domainName, dataSource, queryWithShodan, limitResults):
     if not domainName:
         return "Please enter a domain name."
     
-    if not limitResults or limitResults.isdigit() == False:
+    if not limitResults or str(limitResults).isdigit() == False:
         return "Please enter a valid number for your results limit."
     
     if dataSource == "Data Source":
