@@ -1,5 +1,20 @@
 #!/usr/bin/bash
 
+if [ $1 == "-r" ]; then
+    printf "Are you sure you would like to remove theharvester-gui? [y/n]:"
+    read areYouSure
+    
+    if [ $areYouSure != "y" ] && [ $areYouSure != "Y" ]; then
+        echo "Okay, Exiting."
+        exit 1
+    fi
+    
+    rm -r "$2/usr/share/theHarvester-gui/"
+    rm -r "$2/usr/bin/theharestergui"
+    
+    exit 1
+fi
+
 printf "Are you sure you would like install theharvester-gui? [y/n]:"
 read areYouSure
 
