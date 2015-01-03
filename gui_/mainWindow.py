@@ -203,15 +203,15 @@ class Ui_MainWindow(QtCore.QObject):
             self.resultsBox.setPlainText(verification)
             
     def abort(self):
+        if self.process.pid() > 0:
+            self.process.close()
+            
         self.statusbar.showMessage(_translate("MainWindow", "Aborted"))
         self.abortButton.setEnabled(False)
         self.goButton.setEnabled(True)
         
-        if self.process.pid() > 0:
-            self.process.close()
-            
-        
     def resetGUI(self):
+        self.abort()
         self.resultsBox.setPlainText("")
         self.domainName.setText("")
         self.limitResults.setText("500")
@@ -220,3 +220,4 @@ class Ui_MainWindow(QtCore.QObject):
         self.statusbar.showMessage(_translate("MainWindow", "Ready to go!"))
         self.abortButton.setEnabled(False)
         self.goButton.setEnabled(True)
+        
