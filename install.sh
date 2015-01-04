@@ -274,3 +274,8 @@ cp -r "LICENSE" "$directory/usr/share/theHarvester-gui/"
 echo "Making files executable."
 chmod +x "$directory/usr/bin/theharvestergui"
 chmod +x "$directory/usr/share/theHarvester-gui/theharvestergui-launcher.py"
+
+if [ $version == "qt4" ]; then
+    echo "Changing branch back to master..."
+    git checkout master
+fi
