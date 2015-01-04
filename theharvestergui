@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 cd /usr/share/theHarvester-gui
 python2 theharvestergui-launcher.py
