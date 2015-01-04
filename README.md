@@ -5,7 +5,7 @@
 3. [Compatible Platforms](#compatible-platforms)
 4. [Installation Instructions](#installation-instructions)
   1. [Arch](#arch) 
-  2. [Debian/Kali]()
+  2. [Debian/Kali](#debiankali)
 
 # What is theHarvester-gui?
 
@@ -15,29 +15,18 @@ It's a graphical frontend to theHarvester, for ease of use and speed. It's writt
 
 * theHarvester from their [github page](http://github.com/laramies/theHarvester). v2.5
 
-If you're using the qt5 version:
-
-* python
-* python-pyqt5
-* pyqt5-common
-* qt5-base
-
-If you're using the qt4 version:
-
-* python2
-* python2-pyqt4
-* pyqt4-common
-* qt4
-
 # Compatible Platforms:
 
 * Arch
-* More to come soon!
+* Debian
+* Kali
 
 # Installation instructions
 ## Arch
 
 theHarvester-gui is available on the AUR of [aur.archlinux.org](http://aur.archlinux.org) in QT4 and QT5. You can install it manually, or with an AUR helper. Check it out at [theharvester-gui](https://aur.archlinux.org/packages/theharvester-gui) or [theharvester-gui-qt4](https://aur.archlinux.org/packages/theharvester-gui)
+
+### Installation instructions:
 
 `yaourt -S theharvester-gui` 
 
