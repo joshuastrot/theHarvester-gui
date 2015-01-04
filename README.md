@@ -11,15 +11,15 @@
 
 It's a graphical frontend to theHarvester, for ease of use and speed. It's written in PyQt5 and Python 3, or PyQt4 and Python 2, you can pick which one in the installation process. So you'll need to download you're dependencies accordingly to which you pick.
 
-# Universal Dependencies:
-
-* theHarvester from their [github page](http://github.com/laramies/theHarvester). v2.5
-
 # Compatible Platforms:
 
 * Arch
 * Debian
 * Kali
+
+# Universal Dependencies:
+
+* theHarvester from their [github page](http://github.com/laramies/theHarvester). v2.5
 
 # Installation instructions
 ## Arch
