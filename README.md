@@ -4,7 +4,7 @@
 2. [Dependencies](#dependencies)
 3. [Compatible Platforms](#compatible-platforms)
 4. [Installation Instructions](#installation-instructions)
-  4.1 [Arch](#arch) 
+  1. [Arch](#arch) 
 
 # What is theHarvester-gui?
 
